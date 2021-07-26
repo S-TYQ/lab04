@@ -1,6 +1,6 @@
 // intbst.cpp
 // Implements class IntBST
-// YOUR NAME(S), DATE
+// Shirley Xie 4595534 23/07/2021
 
 #include "intbst.h"
 
