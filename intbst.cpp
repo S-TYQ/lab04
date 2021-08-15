@@ -121,13 +121,17 @@ int IntBST::count() const {
 
 // recursive helper for count
 int IntBST::count(Node *n) const {
-   if(n){
-	   return n->info+count(n->left)+count(n->right);
-   }
-   else{	
-    return 0;
-   }
-
+    int num = 0 ;
+    if(n){
+   	if (n->left){
+        num+= count(n->left);
+    	}
+    	if (n->right){
+        num+= count(n->right);
+    	}
+    }
+	return 0;
+    
 }
 
 // IMPLEMENT THIS FIRST: returns the node for a given value or NULL if none exists
@@ -214,7 +218,7 @@ int IntBST::getSuccessor(int value) const{
 // returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
         Node* here = getNodeFor(value, root);
-	if (here=nullptr){
+	if (here == nullptr){
 		return false;
 	}
 	if (here->left == here->right && here != nullptr){
