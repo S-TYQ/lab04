@@ -130,7 +130,7 @@ int IntBST::count(Node *n) const {
         num+= count(n->right);
     	}
     }
-	return 0;
+	return num;
     
 }
 
