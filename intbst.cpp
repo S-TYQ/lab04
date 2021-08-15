@@ -107,14 +107,15 @@ int IntBST::sum() const {
 // recursive helper for sum
 int IntBST::sum(Node *n) const {
     int total = 0;
-    if (n->left) {
-        total += sum(n->left);
+    if (n->info){
+    	if (n->left) {
+        	total += sum(n->left);
 
+    	}
+    	if (n->right){
+        	total += sum(n->right);
+    	}
     }
-    if (n->right){
-        total += sum(n->right);
-    }
-
     return total+ n->info;
 }
 
