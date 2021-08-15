@@ -106,17 +106,12 @@ int IntBST::sum() const {
 
 // recursive helper for sum
 int IntBST::sum(Node *n) const {
-    int total = 0;
-    if (n->info){
-    	if (n->left) {
-        	total += sum(n->left);
-
-    	}
-    	if (n->right){
-        	total += sum(n->right);
-    	}
+    if(n){
+	    return n->info+sum(n->left)+sum(n->right);
     }
-    return total+ n->info;
+    else{
+	    return 0;
+    }
 }
 
 // return count of values
@@ -126,14 +121,12 @@ int IntBST::count() const {
 
 // recursive helper for count
 int IntBST::count(Node *n) const {
-    int num = 0 ;
-    if (n->left){
-        num+= count(n->left);
-    }
-    if (n->right){
-        num+= count(n->right);
-    }
-    return num+=1;
+   if(n){
+	   return n->info+count(n->left)+count(n->right);
+   }
+   else{	
+    return 0;
+   }
 
 }
 
@@ -220,37 +213,70 @@ int IntBST::getSuccessor(int value) const{
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
-    if (contains(value)){
         Node* here = getNodeFor(value, root);
-        if (here->left!=nullptr) {
-            Node *temp = mostright(here->left);
-            here->info = temp->info;
-            temp->parent->right = temp->left;
-            delete temp;
-        }
-        else
-        {
-            if (here->right) {
-                Node *temp = here->parent;
-                if (temp->right == here)
-                    temp->right = here->right;
-                else
-                    temp->left = here->right;
-                delete here;
-            }
-            else {
-                Node *temp = here->parent;
-                if (temp->right == here)
-                    temp->right = nullptr;
-                else
-                    temp->left = nullptr;
-                delete here;
-            }
-
-        }
-    }
-    else
-        return false;
+	if (here=nullptr){
+		return false;
+	}
+	if (here->left == here->right && here != nullptr){
+		if (here == root){
+			delete root;
+			root = nullptr;
+		}
+	else{
+		if (here->parent->left == here){
+			here->parent->left = nullptr;
+		}
+		else{
+			here->parent->right = nullptr;
+		}
+		delete here;
+	}
+	return true;
+	}
+	if (here->left == nullptr){
+		if(here == root){
+			root = root->right;
+			delete here;
+			return true;
+		}
+		else{
+			if (here->parent->left == here){
+				here->parent->left = here->right;
+			}
+			else{
+				here->parent->right = here->right;
+			}
+			delete here;
+			return true;
+		}
+	}
+	else if (here->right == nullptr){
+		if (here == root){
+			root = root->left;
+			delete here;
+			return true;
+		}
+		else{
+			if (here->parent->left == here){
+				here->parent->left = here->left;
+			}
+			else{
+				here->parent->right = here->left;
+			}
+			delete here;
+			return true;
+	}
+	}
+	Node *suc = getSuccessorNode(value);
+	here->info = suc->info;
+	if (suc->parent->left == suc){
+		suc->parent->left = suc->right;
+	}
+	else{
+		suc->parent->right = suc->right;
+	}
+	delete suc;
+	return true;
 }
 
 IntBST::Node *IntBST::mostleft(IntBST::Node *n) const{
